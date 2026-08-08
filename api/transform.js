@@ -21,6 +21,41 @@ function dataUrlToBlob(dataUrl) {
   return new Blob([bytes], { type: mime });
 }
 
+function toChildFriendlyMessage(status, result) {
+  const apiMessage = String(result?.error?.message || '').toLowerCase();
+  const apiCode = String(result?.error?.code || '').toLowerCase();
+  const apiType = String(result?.error?.type || '').toLowerCase();
+
+  if (
+    status === 402 ||
+    apiCode.includes('insufficient_quota') ||
+    apiType.includes('insufficient_quota') ||
+    apiMessage.includes('no credits remaining') ||
+    apiMessage.includes('insufficient_quota') ||
+    apiMessage.includes('billing')
+  ) {
+    return 'A mágica ficou sem energia. Peça para um adulto ajudar e tente de novo.';
+  }
+
+  if (status === 401 || status === 403) {
+    return 'A mágica não conseguiu abrir o baú secreto. Peça para um adulto verificar e tente de novo.';
+  }
+
+  if (status === 413) {
+    return 'A foto ficou grande demais. Tire outra foto.';
+  }
+
+  if (status === 429) {
+    return 'Tem muita gente usando a mágica agora. Espere um pouquinho e tente de novo.';
+  }
+
+  if (status >= 500) {
+    return 'A mágica tropeçou. Tente mais uma vez.';
+  }
+
+  return 'Não consegui transformar esse desenho agora. Tente de novo.';
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     res.setHeader('Allow', 'POST');
@@ -29,7 +64,7 @@ export default async function handler(req, res) {
 
   if (!process.env.OPENAI_API_KEY) {
     return res.status(503).json({
-      message: 'O app ainda precisa da chave da IA para fazer a mágica.'
+      message: 'A mágica ainda não está pronta. Peça para um adulto ajudar.'
     });
   }
 
@@ -64,8 +99,9 @@ export default async function handler(req, res) {
 
     if (!openaiResponse.ok) {
       console.error('OpenAI image error:', result);
-      const message = result?.error?.message || 'Não consegui transformar esse desenho agora.';
-      return res.status(openaiResponse.status).json({ message });
+      return res.status(openaiResponse.status).json({
+        message: toChildFriendlyMessage(openaiResponse.status, result)
+      });
     }
 
     const base64 = result?.data?.[0]?.b64_json;
