@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#6C5CE7" />
+  <meta name="description" content="Transforme desenhos em imagens reais com um toque de magia." />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/styles.css" />
+  <title>Desenho Real</title>
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="Desenho Real, início">
+        <span class="brand-mark" aria-hidden="true">✨</span>
+        <span>Desenho Real</span>
+      </a>
+      <span class="version">0.1</span>
+    </header>
+
+    <section class="hero" aria-labelledby="page-title">
+      <div class="hero-copy">
+        <p class="eyebrow">Seu desenho ganha vida</p>
+        <h1 id="page-title">Desenhe.<br><span>Eu faço virar real!</span></h1>
+        <p class="hero-text">Tire uma foto do desenho e toque no botão mágico.</p>
+      </div>
+      <div class="hero-doodle" aria-hidden="true">
+        <span class="star star-a">★</span>
+        <span class="star star-b">✦</span>
+        <span class="rainbow">🌈</span>
+      </div>
+    </section>
+
+    <section id="pickerView" class="card magic-card" aria-label="Escolher desenho">
+      <div id="emptyState" class="empty-state">
+        <div class="camera-bubble" aria-hidden="true">📸</div>
+        <h2>Mostre seu desenho</h2>
+        <p>Pode ser uma foto nova ou uma imagem que já está no celular.</p>
+
+        <div class="pick-actions">
+          <label class="big-button primary" for="cameraInput">
+            <span aria-hidden="true">📷</span>
+            Tirar foto
+          </label>
+          <label class="big-button secondary" for="galleryInput">
+            <span aria-hidden="true">🖼️</span>
+            Escolher desenho
+          </label>
+        </div>
+
+        <input id="cameraInput" class="sr-only" type="file" accept="image/*" capture="environment" />
+        <input id="galleryInput" class="sr-only" type="file" accept="image/*" />
+      </div>
+
+      <div id="selectedState" class="selected-state" hidden>
+        <div class="preview-frame">
+          <img id="drawingPreview" alt="Seu desenho" />
+          <button id="changeImageButton" class="tiny-button" type="button">Trocar</button>
+        </div>
+
+        <button id="transformButton" class="magic-button" type="button">
+          <span class="magic-icon" aria-hidden="true">✨</span>
+          <span>Fazer virar real!</span>
+        </button>
+        <p class="tiny-note">A mágica pode levar alguns segundos.</p>
+      </div>
+    </section>
+
+    <section id="loadingView" class="card loading-card" aria-live="polite" hidden>
+      <div class="magic-orb" aria-hidden="true">
+        <span>✨</span>
+      </div>
+      <h2 id="loadingTitle">Dando vida ao desenho…</h2>
+      <p id="loadingMessage">A imaginação já está trabalhando!</p>
+      <div class="loading-dots" aria-hidden="true"><i></i><i></i><i></i></div>
+    </section>
+
+    <section id="resultView" class="result-view" hidden aria-labelledby="resultTitle">
+      <div class="result-heading">
+        <p class="eyebrow">Tcharam! 🎉</p>
+        <h2 id="resultTitle">Olha o que virou!</h2>
+      </div>
+
+      <div class="comparison-grid">
+        <article class="image-card">
+          <div class="image-label">Seu desenho</div>
+          <img id="resultOriginal" alt="Desenho original" />
+        </article>
+        <article class="image-card real-card">
+          <div class="image-label">Virou real ✨</div>
+          <img id="resultImage" alt="Imagem real criada a partir do desenho" />
+        </article>
+      </div>
+
+      <div class="result-actions">
+        <button id="saveButton" class="big-button primary" type="button">
+          <span aria-hidden="true">💾</span>
+          Salvar imagem
+        </button>
+        <button id="againButton" class="big-button secondary" type="button">
+          <span aria-hidden="true">🎨</span>
+          Outro desenho
+        </button>
+      </div>
+    </section>
+
+    <section id="errorView" class="card error-card" role="alert" hidden>
+      <div class="error-face" aria-hidden="true">😕</div>
+      <h2>Ops, a mágica falhou</h2>
+      <p id="errorMessage">Não consegui transformar esse desenho agora.</p>
+      <button id="retryButton" class="big-button primary" type="button">Tentar de novo</button>
+    </section>
+
+    <footer>
+      <span>Feito para imaginar, brincar e criar.</span>
+    </footer>
+  </main>
+
+  <div id="confetti" class="confetti" aria-hidden="true"></div>
+  <script src="/app.js" defer></script>
+</body>
+</html>
