@@ -32,7 +32,8 @@ function toChildFriendlyMessage(status, result) {
     apiType.includes('insufficient_quota') ||
     apiMessage.includes('no credits remaining') ||
     apiMessage.includes('insufficient_quota') ||
-    apiMessage.includes('billing')
+    apiMessage.includes('billing') ||
+    apiMessage.includes('quota')
   ) {
     return 'A mágica ficou sem energia. Peça para um adulto ajudar e tente de novo.';
   }
@@ -62,6 +63,8 @@ export default async function handler(req, res) {
     return res.status(405).json({ message: 'Método não permitido.' });
   }
 
+  res.setHeader('Cache-Control', 'no-store');
+
   if (!process.env.OPENAI_API_KEY) {
     return res.status(503).json({
       message: 'A mágica ainda não está pronta. Peça para um adulto ajudar.'
@@ -75,7 +78,7 @@ export default async function handler(req, res) {
     }
 
     const imageBlob = dataUrlToBlob(imageDataUrl);
-    if (imageBlob.size > 3.8 * 1024 * 1024) {
+    if (imageBlob.size > 3.2 * 1024 * 1024) {
       return res.status(413).json({ message: 'A foto ficou grande demais. Tire outra foto.' });
     }
 
@@ -85,7 +88,8 @@ export default async function handler(req, res) {
     form.append('prompt', MAGIC_PROMPT);
     form.append('size', 'auto');
     form.append('quality', 'medium');
-    form.append('output_format', 'png');
+    form.append('output_format', 'webp');
+    form.append('output_compression', '82');
 
     const openaiResponse = await fetch('https://api.openai.com/v1/images/edits', {
       method: 'POST',
@@ -110,7 +114,7 @@ export default async function handler(req, res) {
       return res.status(502).json({ message: 'A imagem não voltou pronta. Tente de novo.' });
     }
 
-    return res.status(200).json({ image: `data:image/png;base64,${base64}` });
+    return res.status(200).json({ image: `data:image/webp;base64,${base64}` });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: 'A mágica tropeçou. Tente mais uma vez.' });
