@@ -64,7 +64,7 @@ async function prepareImage(file) {
   image.src = imageUrl;
   await image.decode();
 
-  const maxSide = 1600;
+  const maxSide = 1280;
   const scale = Math.min(1, maxSide / Math.max(image.naturalWidth, image.naturalHeight));
   const width = Math.max(1, Math.round(image.naturalWidth * scale));
   const height = Math.max(1, Math.round(image.naturalHeight * scale));
@@ -78,7 +78,7 @@ async function prepareImage(file) {
   context.drawImage(image, 0, 0, width, height);
   URL.revokeObjectURL(imageUrl);
 
-  return canvas.toDataURL('image/jpeg', 0.88);
+  return canvas.toDataURL('image/jpeg', 0.82);
 }
 
 async function selectImage(file) {
@@ -144,6 +144,7 @@ async function transformDrawing() {
     const response = await fetch('/api/transform', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
+      cache: 'no-store',
       body: JSON.stringify({ image: selectedDataUrl })
     });
 
@@ -174,7 +175,7 @@ function saveImage() {
   if (!generatedDataUrl) return;
   const link = document.createElement('a');
   link.href = generatedDataUrl;
-  link.download = `desenho-real-${Date.now()}.png`;
+  link.download = `desenho-real-${Date.now()}.webp`;
   document.body.appendChild(link);
   link.click();
   link.remove();
