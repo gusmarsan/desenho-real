@@ -17,7 +17,7 @@
         <span class="brand-mark" aria-hidden="true">✨</span>
         <span>Desenho Real</span>
       </a>
-      <span class="version">0.1</span>
+      <span class="version">0.2</span>
     </header>
 
     <section class="hero" aria-labelledby="page-title">
@@ -66,6 +66,17 @@
         </button>
         <p class="tiny-note">A mágica pode levar alguns segundos.</p>
       </div>
+
+      <div id="savedDrawingsSection" class="saved-drawings" hidden>
+        <div class="saved-drawings-heading">
+          <div>
+            <p class="mini-eyebrow">Guardados no app</p>
+            <h3>Meus desenhos</h3>
+          </div>
+          <span>Ficam neste aparelho</span>
+        </div>
+        <div id="savedDrawingsGrid" class="saved-drawings-grid" aria-label="Desenhos guardados"></div>
+      </div>
     </section>
 
     <section id="loadingView" class="card loading-card" aria-live="polite" hidden>
@@ -83,22 +94,44 @@
         <h2 id="resultTitle">Olha o que virou!</h2>
       </div>
 
-      <div class="comparison-grid">
-        <article class="image-card">
-          <div class="image-label">Seu desenho</div>
-          <img id="resultOriginal" alt="Desenho original" />
+      <div class="result-stack">
+        <article class="result-block result-after">
+          <div class="result-block-heading">
+            <span class="result-label after-label">Depois ✨</span>
+            <span class="tap-hint">Toque para ampliar</span>
+          </div>
+          <button id="openResultButton" class="image-card result-image-button" type="button" aria-label="Abrir resultado em tela cheia">
+            <img id="resultImage" alt="Imagem real criada a partir do desenho" />
+          </button>
+          <div class="image-tools">
+            <button id="saveButton" class="small-action primary-action" type="button">
+              <span aria-hidden="true">💾</span>
+              Salvar
+            </button>
+            <button id="shareButton" class="small-action whatsapp-action" type="button">
+              <span aria-hidden="true">💬</span>
+              WhatsApp
+            </button>
+          </div>
         </article>
-        <article class="image-card real-card">
-          <div class="image-label">Virou real ✨</div>
-          <img id="resultImage" alt="Imagem real criada a partir do desenho" />
+
+        <article class="result-block result-before">
+          <div class="result-block-heading">
+            <span class="result-label before-label">Antes</span>
+          </div>
+          <div class="image-card original-card">
+            <img id="resultOriginal" alt="Desenho original" />
+          </div>
+          <div class="image-tools single-tool">
+            <button id="saveOriginalButton" class="small-action secondary-action" type="button">
+              <span aria-hidden="true">💾</span>
+              Salvar desenho
+            </button>
+          </div>
         </article>
       </div>
 
       <div class="result-actions">
-        <button id="saveButton" class="big-button primary" type="button">
-          <span aria-hidden="true">💾</span>
-          Salvar imagem
-        </button>
         <button id="againButton" class="big-button secondary" type="button">
           <span aria-hidden="true">🎨</span>
           Outro desenho
@@ -118,6 +151,12 @@
     </footer>
   </main>
 
+  <div id="resultLightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Resultado em tela cheia" hidden>
+    <button id="closeLightboxButton" class="lightbox-close" type="button" aria-label="Fechar imagem">×</button>
+    <img id="fullscreenImage" alt="Resultado em tela cheia" />
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
   <div id="confetti" class="confetti" aria-hidden="true"></div>
   <script src="/app.js" defer></script>
 </body>
