@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#9A68F0"/>
+      <stop offset="0.55" stop-color="#7752D9"/>
+      <stop offset="1" stop-color="#4E3BB9"/>
+    </linearGradient>
+    <linearGradient id="pencil" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FF72B8"/>
+      <stop offset="0.52" stop-color="#C778FF"/>
+      <stop offset="1" stop-color="#8B61E8"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="512" height="512" rx="112" fill="url(#bg)"/>
+
+  <path d="M112 116l8 19 19 8-19 8-8 19-8-19-19-8 19-8z" fill="#FFD94A"/>
+  <path d="M170 90l5 12 12 5-12 5-5 12-5-12-12-5 12-5z" fill="#E7DAFF"/>
+  <path d="M387 172l6 14 14 6-14 6-6 14-6-14-14-6 14-6z" fill="#DCCBFF"/>
+  <path d="M340 108l4 10 10 4-10 4-4 10-4-10-10-4 10-4z" fill="#FFFFFF"/>
+
+  <path d="M136 332c-30 0-54-23-54-52 0-25 18-46 42-51 4-48 44-86 94-86 39 0 73 23 86 57 8-4 18-6 28-6 34 0 61 26 61 59 0 5-1 10-2 14 23 8 39 29 39 54 0 31-25 56-57 56H136z" fill="#FFFDF8"/>
+  <ellipse cx="173" cy="319" rx="78" ry="30" fill="#FFFDF8"/>
+  <ellipse cx="277" cy="321" rx="104" ry="36" fill="#FFFDF8"/>
+
+  <ellipse cx="213" cy="286" rx="11" ry="15" fill="#2A2361"/>
+  <ellipse cx="289" cy="286" rx="11" ry="15" fill="#2A2361"/>
+  <path d="M225 321c11 15 31 15 42 0" fill="none" stroke="#2A2361" stroke-width="10" stroke-linecap="round"/>
+  <ellipse cx="183" cy="315" rx="18" ry="9" fill="#FFA8C4" opacity="0.75"/>
+  <ellipse cx="319" cy="315" rx="18" ry="9" fill="#FFA8C4" opacity="0.75"/>
+
+  <g transform="translate(324 70) rotate(28)">
+    <rect x="0" y="0" width="58" height="166" rx="28" fill="url(#pencil)"/>
+    <rect x="0" y="0" width="58" height="34" rx="17" fill="#FFDA4A"/>
+    <rect x="0" y="34" width="58" height="10" fill="#FF9E3D"/>
+    <path d="M0 151h58l-29 58z" fill="#F0C285"/>
+    <path d="M20 187h18l-9 22z" fill="#2D2756"/>
+    <path d="M15 56v70" stroke="#E8C9FF" stroke-width="10" stroke-linecap="round" opacity="0.45"/>
+  </g>
+
+  <path d="M133 378l6 14 14 6-14 6-6 14-6-14-14-6 14-6z" fill="#FFD94A"/>
+  <path d="M373 355l5 12 12 5-12 5-5 12-5-12-12-5 12-5z" fill="#FFFFFF"/>
+</svg>
