@@ -21,6 +21,7 @@ const confetti = document.querySelector('#confetti');
 
 let selectedFile = null;
 let selectedDataUrl = '';
+let previewDataUrl = '';
 let generatedDataUrl = '';
 let loadingTimer = null;
 
@@ -41,6 +42,7 @@ function showOnly(view) {
 function resetPicker() {
   selectedFile = null;
   selectedDataUrl = '';
+  previewDataUrl = '';
   generatedDataUrl = '';
   cameraInput.value = '';
   galleryInput.value = '';
@@ -48,6 +50,13 @@ function resetPicker() {
   emptyState.hidden = false;
   selectedState.hidden = true;
   showOnly(pickerView);
+}
+
+async function loadImage(dataUrl) {
+  const image = new Image();
+  image.src = dataUrl;
+  await image.decode();
+  return image;
 }
 
 async function prepareImage(file) {
@@ -81,11 +90,44 @@ async function prepareImage(file) {
   return canvas.toDataURL('image/jpeg', 0.82);
 }
 
+async function makeLandscapePreview(dataUrl) {
+  const image = await loadImage(dataUrl);
+  const canvas = document.createElement('canvas');
+  const width = 1200;
+  const height = 900;
+  const targetRatio = width / height;
+  const sourceRatio = image.naturalWidth / image.naturalHeight;
+
+  canvas.width = width;
+  canvas.height = height;
+
+  const context = canvas.getContext('2d', { alpha: false });
+  context.fillStyle = '#ffffff';
+  context.fillRect(0, 0, width, height);
+
+  let sx = 0;
+  let sy = 0;
+  let sw = image.naturalWidth;
+  let sh = image.naturalHeight;
+
+  if (sourceRatio < targetRatio) {
+    sh = image.naturalWidth / targetRatio;
+    sy = Math.max(0, (image.naturalHeight - sh) / 2);
+  } else {
+    sw = image.naturalHeight * targetRatio;
+    sx = Math.max(0, (image.naturalWidth - sw) / 2);
+  }
+
+  context.drawImage(image, sx, sy, sw, sh, 0, 0, width, height);
+  return canvas.toDataURL('image/jpeg', 0.9);
+}
+
 async function selectImage(file) {
   try {
     selectedFile = file;
     selectedDataUrl = await prepareImage(file);
-    drawingPreview.src = selectedDataUrl;
+    previewDataUrl = await makeLandscapePreview(selectedDataUrl);
+    drawingPreview.src = previewDataUrl;
     emptyState.hidden = true;
     selectedState.hidden = false;
   } catch (error) {
@@ -159,7 +201,7 @@ async function transformDrawing() {
     }
 
     generatedDataUrl = payload.image;
-    resultOriginal.src = selectedDataUrl;
+    resultOriginal.src = previewDataUrl || selectedDataUrl;
     resultImage.src = generatedDataUrl;
     stopLoadingMessages();
     showOnly(resultView);
