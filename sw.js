@@ -1,4 +1,4 @@
-const CACHE = 'desenho-real-v0.1.3';
+const CACHE = 'desenho-real-v0.2';
 const ASSETS = ['/', '/index.html', '/styles.css', '/app.js', '/manifest.webmanifest', '/icon-v2.svg'];
 
 self.addEventListener('install', (event) => {
