@@ -6,9 +6,11 @@ export const config = {
   }
 };
 
-const MAGIC_PROMPT = `Transform this child's drawing into one realistic, believable, family-friendly image.
+const MAGIC_PROMPT = `Transform this child's drawing into one realistic, believable, family-friendly image in a horizontal landscape format.
 
 The drawing is the source of truth. Carefully interpret the child's marks before generating anything. Preserve the main subjects, their relative positions, approximate scale, colors when meaningful, pose/action, scene layout and important small details. Turn simple lines and scribbles into plausible real-world objects, people, animals, scenery, water, sky or structures as appropriate.
+
+The final image must always be horizontal and wide. Compose the scene to fill the entire frame edge to edge. If the source drawing is vertical or narrow, naturally expand the environment to the left and right so the composition feels complete. Do not leave blank side margins, white bars, empty canvas space or a floating subject. Keep the important subject comfortably inside the frame while using the added horizontal space to complete the scene naturally.
 
 Keep the spirit and imagination of a 7-year-old's drawing. Do not over-correct the composition and do not replace the idea with a generic scene. Do not show the paper, frame, marker strokes, crayons or sketch itself in the final result. Make the final image photorealistic, warm, playful, cinematic and safe for children. If a shape is ambiguous, choose the most visually coherent interpretation from the drawing rather than adding unrelated objects.`;
 
@@ -86,7 +88,7 @@ export default async function handler(req, res) {
     form.append('model', 'gpt-image-1');
     form.append('image', imageBlob, 'drawing.jpg');
     form.append('prompt', MAGIC_PROMPT);
-    form.append('size', 'auto');
+    form.append('size', '1536x1024');
     form.append('quality', 'medium');
     form.append('output_format', 'webp');
     form.append('output_compression', '82');
